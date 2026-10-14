@@ -4,6 +4,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Ascension;
 
+/**
+* Ascension is a game where the goal is to save Dr. Rodriguez from the 'EVIL MERGER'.
+* The primary mechanic of the game is to platform vertically by using jump.
+* A player can decide the strength of their jump by holding jump in longer, with a cap.
+*/
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
