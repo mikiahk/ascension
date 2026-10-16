@@ -36,6 +36,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        Services.AddService(_spriteBatch);
 
         _playerAtlas = Content.Load<Texture2D>("player_atlas_32");
         // TODO: use this.Content to load your game content here
