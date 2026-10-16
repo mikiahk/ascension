@@ -35,6 +35,7 @@ public class Game1 : Game
 
     protected override void LoadContent()
     {
+        //batches sprites
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         Services.AddService(_spriteBatch);
 
