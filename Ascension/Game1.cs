@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,8 +10,12 @@ namespace Ascension;
 * The primary mechanic of the game is to platform vertically by using jump.
 * A player can decide the strength of their jump by holding jump in longer, with a cap.
 */
+
+
+
 public class Game1 : Game
 {
+    Texture2D _playerAtlas;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -32,6 +37,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        _playerAtlas = Content.Load<Texture2D>("player_atlas_32");
         // TODO: use this.Content to load your game content here
     }
 
@@ -47,10 +53,54 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(new Color(90, 110, 130));
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
 
-        // TODO: Add your drawing code here
+        // atlas is 3x3, 32px each. frame 0 is top left, counts across then down
+        Rectangle Frame(int i) => new Rectangle((i % 3) * 32, (i / 3) * 32, 32, 32);
 
+        // cmsc245 - the story of one (1) assignment
+        double t = gameTime.TotalGameTime.TotalSeconds;
+        int scene = (int)(t / 1.5) % 7;
+        int step = (int)(t * 8) % 2;   // flips every 1/8 sec, used for the run cycle
+
+        int frame = 0;
+        int x = 304;
+        int y = 150;
+
+        switch (scene)
+        {
+            case 0:   // week 1: assignment posted, "yeah i've got plenty of time"
+                frame = 0;
+                break;
+            case 1:   // week 2: still looking at it
+                frame = 1;
+                break;
+            case 2:   // hunched over the laptop at 1am
+                frame = 2;
+                y += 8;   // sink him down a bit, crouch frame sits too high
+                break;
+            case 3:   // it compiled!!
+                frame = 3;
+                y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);
+                break;
+            case 4:   // ...it compiled but the output is wrong
+                frame = 4;
+                y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);   // same hop, copy paste
+                break;
+            case 5:   // 11:40pm, running to office hours
+                frame = 5 + step;
+                x -= (int)((t * 60) % 80);
+                break;
+            case 6:   // 11:58pm, pushing to the autograder
+                frame = 7 + step;
+                x += (int)((t * 60) % 80);
+                break;
+        }
+
+        _spriteBatch.Draw(_playerAtlas, new Rectangle(x, y, 192, 192), Frame(frame), Color.White);
+
+        _spriteBatch.End();
         base.Draw(gameTime);
     }
 }
