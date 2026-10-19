@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,13 +17,14 @@ namespace Ascension;
 public class Game1 : Game
 {
     private Texture2D _playerAtlas;
-    private Vector2 _playerPosition;
+    private Vector2 _playerPosition = new(304, 150);
     private Texture2D _background;
 
     private float _viewportWidth;
     private float _viewportHeight;
     private float _worldWidth;
     private float _worldHeight;
+    private int _movement = 10;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -66,6 +68,29 @@ public class Game1 : Game
         _viewportWidth = GraphicsDevice.Viewport.Width;
         _viewportHeight = GraphicsDevice.Viewport.Height;
 
+        KeyboardState keyboardInput = Keyboard.GetState();
+        
+        if (keyboardInput.IsKeyDown(Keys.W) ||
+            keyboardInput.IsKeyDown(Keys.Up))
+        {
+            _playerPosition.Y -= _movement;
+        }
+        else if (keyboardInput.IsKeyDown(Keys.D) ||
+                 keyboardInput.IsKeyDown(Keys.Down))
+        {
+            _playerPosition.Y += _movement;
+        }
+        else if (keyboardInput.IsKeyDown(Keys.A) ||
+                 keyboardInput.IsKeyDown(Keys.Left))
+        {
+            _playerPosition.X -= _movement;
+        }
+        else if (keyboardInput.IsKeyDown(Keys.D) ||
+                 keyboardInput.IsKeyDown(Keys.Right))
+        {
+            _playerPosition.X += _movement;
+        }
+
         base.Update(gameTime);
     }
 
@@ -96,8 +121,6 @@ public class Game1 : Game
         int step = (int)(t * 8) % 2;   // flips every 1/8 sec, used for the run cycle
 
         int frame = 0;
-        int x = 304;
-        int y = 150;
 
         switch (scene)
         {
@@ -109,27 +132,27 @@ public class Game1 : Game
                 break;
             case 2:   
                 frame = 2;
-                y += 8;   
+                _playerPosition.Y += 8;   
                 break;
             case 3:  
                 frame = 3;
-                y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);
+                _playerPosition.Y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);
                 break;
             case 4:   
                 frame = 4;
-                y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);   
+                _playerPosition.Y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);   
                 break;
             case 5:   
                 frame = 5 + step;
-                x -= (int)((t * 60) % 80);
+                _playerPosition.X -= (int)((t * 60) % 80);
                 break;
             case 6:   
                 frame = 7 + step;
-                x += (int)((t * 60) % 80);
+                _playerPosition.X += (int)((t * 60) % 80);
                 break;
         }
 
-        _spriteBatch.Draw(_playerAtlas, new Rectangle(x, y, 192, 192), Frame(frame), Color.White);
+        _spriteBatch.Draw(_playerAtlas, new Rectangle((int)_playerPosition.X, (int)_playerPosition.Y, 192, 192), Frame(frame), Color.White);
 
         _spriteBatch.End();
         base.Draw(gameTime);
