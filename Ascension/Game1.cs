@@ -15,8 +15,14 @@ namespace Ascension;
 
 public class Game1 : Game
 {
-    Texture2D _playerAtlas;
-    Texture2D _background;
+    private Texture2D _playerAtlas;
+    private Vector2 _playerPosition;
+    private Texture2D _background;
+
+    private float _viewportWidth;
+    private float _viewportHeight;
+    private float _worldWidth;
+    private float _worldHeight;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -43,6 +49,8 @@ public class Game1 : Game
         Services.AddService(_spriteBatch);
 
         _background = Content.Load<Texture2D>("mountain_background_1080x20000");
+        _worldWidth = _background.Width;
+        _worldHeight = _background.Height;
 
         _playerAtlas = Content.Load<Texture2D>("player_atlas_32");
         // TODO: use this.Content to load your game content here
@@ -52,8 +60,11 @@ public class Game1 : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-
         // TODO: Add your update logic here
+
+        // assigned in Update(), in case user changes screen size
+        _viewportWidth = GraphicsDevice.Viewport.Width;
+        _viewportHeight = GraphicsDevice.Viewport.Height;
 
         base.Update(gameTime);
     }
@@ -61,8 +72,18 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
 
+        Vector2 playerOffset = new(_viewportWidth, _viewportHeight);
+        Vector2 scroll = _playerPosition - playerOffset;
+
+        Vector2 minScroll = Vector2.Zero;
+        Vector2 maxScroll = new(_worldWidth - _viewportWidth, _worldHeight - _viewportHeight);
+        scroll = Vector2.Clamp(scroll, minScroll, maxScroll);
+        Vector2 viewportOffset = -scroll;
+
+        Matrix transform = Matrix.CreateTranslation(viewportOffset.X, viewportOffset.Y, 0);
+
         GraphicsDevice.Clear(new Color(90, 110, 130));
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
+        _spriteBatch.Begin(transformMatrix: transform);
 
         _spriteBatch.Draw(_background, new Rectangle(0, 0, _background.Width, _background.Height), Color.White);
 
