@@ -16,6 +16,7 @@ namespace Ascension;
 public class Game1 : Game
 {
     Texture2D _playerAtlas;
+    Texture2D _background;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -24,6 +25,8 @@ public class Game1 : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+        Window.AllowUserResizing = true;
     }
 
     protected override void Initialize()
@@ -38,6 +41,8 @@ public class Game1 : Game
         //batches sprites
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         Services.AddService(_spriteBatch);
+
+        _background = Content.Load<Texture2D>("mountain_background_1080x20000");
 
         _playerAtlas = Content.Load<Texture2D>("player_atlas_32");
         // TODO: use this.Content to load your game content here
@@ -55,8 +60,11 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
+
         GraphicsDevice.Clear(new Color(90, 110, 130));
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
+
+        _spriteBatch.Draw(_background, new Rectangle(0, 0, _background.Width, _background.Height), Color.White);
 
         // atlas is 3x3, 32px each. frame 0 is top left, counts across then down
         Rectangle Frame(int i) => new Rectangle((i % 3) * 32, (i / 3) * 32, 32, 32);
