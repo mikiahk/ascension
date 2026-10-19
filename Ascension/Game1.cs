@@ -72,29 +72,29 @@ public class Game1 : Game
 
         switch (scene)
         {
-            case 0:   // week 1: assignment posted, "yeah i've got plenty of time"
+            case 0:   
                 frame = 0;
                 break;
-            case 1:   // week 2: still looking at it
+            case 1:   
                 frame = 1;
                 break;
-            case 2:   // hunched over the laptop at 1am
+            case 2:   
                 frame = 2;
-                y += 8;   // sink him down a bit, crouch frame sits too high
+                y += 8;   
                 break;
-            case 3:   // it compiled!!
+            case 3:  
                 frame = 3;
                 y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);
                 break;
-            case 4:   // ...it compiled but the output is wrong
+            case 4:   
                 frame = 4;
-                y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);   // same hop, copy paste
+                y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);   
                 break;
-            case 5:   // 11:40pm, running to office hours
+            case 5:   
                 frame = 5 + step;
                 x -= (int)((t * 60) % 80);
                 break;
-            case 6:   // 11:58pm, pushing to the autograder
+            case 6:   
                 frame = 7 + step;
                 x += (int)((t * 60) % 80);
                 break;
