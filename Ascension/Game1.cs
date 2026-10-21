@@ -109,11 +109,15 @@ public class Game1 : Game
 
         int frame = 0;
 
+        float zoom = 1.5f;
        
         Vector2 playerCenter = _playerPosition + new Vector2(PlayerSize / 2f, PlayerSize / 2f);
         Vector2 viewportCenter = new(_viewportWidth / 2, _viewportHeight / 2);
-        Vector2 viewportOffset = viewportCenter - playerCenter;
-        Matrix transform = Matrix.CreateTranslation(viewportOffset.X, viewportOffset.Y, 0);
+        Vector2 viewportOffset = viewportCenter - playerCenter*zoom;
+
+        Vector2 offset;
+
+        Matrix transform = Matrix.CreateScale(zoom)*Matrix.CreateTranslation(viewportOffset.X, viewportOffset.Y, 0);
         _spriteBatch.Begin(transformMatrix: transform);
         _spriteBatch.Draw(_background, new Rectangle(0, 0, _background.Width, _background.Height), Color.White);
         _spriteBatch.Draw(_playerAtlas, new Rectangle((int)_playerPosition.X, (int)_playerPosition.Y, PlayerSize, PlayerSize), Frame(frame), Color.White);
