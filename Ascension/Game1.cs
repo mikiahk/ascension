@@ -16,7 +16,7 @@ namespace Ascension;
 
 public class Game1 : Game
 {
-    private const int PlayerSize = 96;
+    private const int PlayerSize = 64;
     private Texture2D _playerAtlas;
     private Vector2 _playerPosition;
     private Texture2D _background;
@@ -76,7 +76,7 @@ public class Game1 : Game
         {
             _playerPosition.Y -= _movement;
         }
-        else if (keyboardInput.IsKeyDown(Keys.D) ||
+        else if (keyboardInput.IsKeyDown(Keys.S) ||
                  keyboardInput.IsKeyDown(Keys.Down))
         {
             _playerPosition.Y += _movement;
