@@ -109,36 +109,7 @@ public class Game1 : Game
 
         int frame = 0;
 
-        switch (scene)
-        {
-            case 0:   
-                frame = 0;
-                break;
-            case 1:   
-                frame = 1;
-                break;
-            case 2:   
-                frame = 2;
-                _playerPosition.Y += 8;   
-                break;
-            case 3:  
-                frame = 3;
-                _playerPosition.Y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);
-                break;
-            case 4:   
-                frame = 4;
-                _playerPosition.Y -= (int)(Math.Abs(Math.Sin(t * 4)) * 40);   
-                break;
-            case 5:   
-                frame = 5 + step;
-                _playerPosition.X -= (int)((t * 60) % 80);
-                break;
-            case 6:   
-                frame = 7 + step;
-                _playerPosition.X += (int)((t * 60) % 80);
-                break;
-        }
-
+       
         Vector2 playerCenter = _playerPosition + new Vector2(PlayerSize / 2f, PlayerSize / 2f);
         Vector2 viewportCenter = new(_viewportWidth / 2, _viewportHeight / 2);
         Vector2 viewportOffset = viewportCenter - playerCenter;
