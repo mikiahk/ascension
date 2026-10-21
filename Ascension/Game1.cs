@@ -16,7 +16,7 @@ namespace Ascension;
 
 public class Game1 : Game
 {
-    private const int PlayerSize = 192;
+    private const int PlayerSize = 96;
     private Texture2D _playerAtlas;
     private Vector2 _playerPosition;
     private Texture2D _background;
@@ -52,10 +52,10 @@ public class Game1 : Game
         _viewportWidth = GraphicsDevice.Viewport.Width;
         _viewportHeight = GraphicsDevice.Viewport.Height;
 
-        _background = Content.Load<Texture2D>("mountain_background_1080x20000");
+        _background = Content.Load<Texture2D>(@"images\Pixel Mountain");
         _playerPosition = new((_background.Width - PlayerSize) / 2, _background.Height - PlayerSize);
 
-        _playerAtlas = Content.Load<Texture2D>("player_atlas_32");
+        _playerAtlas = Content.Load<Texture2D>(@"images\player_atlas_32");
         // TODO: use this.Content to load your game content here
     }
 
