@@ -125,7 +125,7 @@ public class Game1 : Game
         Matrix transform = Matrix.CreateScale(zoom)*Matrix.CreateTranslation(viewportOffset.X, viewportOffset.Y, 0);
         _spriteBatch.Begin(transformMatrix: transform);
         _spriteBatch.Draw(_background, new Rectangle(0, 0, _background.Width, _background.Height), Color.White);
-        _spriteBatch.Draw(_mountain, new Rectangle(0, 0, _mountain.Width, _mountain.Height), Color.White);
+        _spriteBatch.Draw(_mountain, new Rectangle(0, (PlayerSize*3), _mountain.Width, _mountain.Height), Color.White);
         _spriteBatch.Draw(_playerAtlas, new Rectangle((int)_playerPosition.X, (int)_playerPosition.Y, PlayerSize, PlayerSize), Frame(frame), Color.White);
 
         _spriteBatch.End();
