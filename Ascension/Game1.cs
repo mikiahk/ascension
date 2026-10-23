@@ -120,9 +120,12 @@ public class Game1 : Game
         Vector2 viewportCenter = new(_viewportWidth / 2, _viewportHeight / 2);
         Vector2 viewportOffset = viewportCenter - playerCenter*zoom;
 
-        Vector2 offset; // pls declare //no
+        Vector2 MinScroll = new(0,0);
+        Vector2 MaxScroll = new(_background.Width, _background.Height);
 
-        Matrix transform = Matrix.CreateScale(zoom)*Matrix.CreateTranslation(viewportOffset.X, viewportOffset.Y, 0);
+        Vector2 offset = Vector2.Clamp(viewportOffset, MinScroll, MaxScroll); // pls declare //no
+
+        Matrix transform = Matrix.CreateScale(zoom)*Matrix.CreateTranslation(offset.X, offset.Y, 0);
         _spriteBatch.Begin(transformMatrix: transform);
         _spriteBatch.Draw(_background, new Rectangle(0, 0, _background.Width, _background.Height), Color.White);
         _spriteBatch.Draw(_mountain, new Rectangle(0, (PlayerSize*3), _mountain.Width, _mountain.Height), Color.White);
