@@ -16,10 +16,14 @@ namespace Ascension;
 
 public class Game1 : Game
 {
-    private const int PlayerSize = 64;
+    private const int PlayerSize = 32;
     private Texture2D _playerAtlas;
     private Vector2 _playerPosition;
+
+    //the next 4 vars should be in GameplayScene.cs. Will fix
     private Texture2D _background;
+    private Texture2D _foreground;
+    private Texture2D _mountain;
 
     private float _viewportWidth;
     private float _viewportHeight;
@@ -52,7 +56,8 @@ public class Game1 : Game
         _viewportWidth = GraphicsDevice.Viewport.Width;
         _viewportHeight = GraphicsDevice.Viewport.Height;
 
-        _background = Content.Load<Texture2D>(@"images\Pixel Mountain");
+        _background = Content.Load<Texture2D>(@"images\Pixel-Art Alpine Mountain Panorama (1)");
+        _mountain = Content.Load<Texture2D>(@"images\Pixel-Art Mountain Parallax Sprite Sheet");
         _playerPosition = new((_background.Width - PlayerSize) / 2, _background.Height - PlayerSize);
 
         _playerAtlas = Content.Load<Texture2D>(@"images\player_atlas_32");
@@ -109,7 +114,7 @@ public class Game1 : Game
 
         int frame = 0;
 
-        float zoom = 1.5f;
+        float zoom = 2.75f;
        
         Vector2 playerCenter = _playerPosition + new Vector2(PlayerSize / 2f, PlayerSize / 2f);
         Vector2 viewportCenter = new(_viewportWidth / 2, _viewportHeight / 2);
@@ -120,6 +125,7 @@ public class Game1 : Game
         Matrix transform = Matrix.CreateScale(zoom)*Matrix.CreateTranslation(viewportOffset.X, viewportOffset.Y, 0);
         _spriteBatch.Begin(transformMatrix: transform);
         _spriteBatch.Draw(_background, new Rectangle(0, 0, _background.Width, _background.Height), Color.White);
+        _spriteBatch.Draw(_mountain, new Rectangle(0, 0, _mountain.Width, _mountain.Height), Color.White);
         _spriteBatch.Draw(_playerAtlas, new Rectangle((int)_playerPosition.X, (int)_playerPosition.Y, PlayerSize, PlayerSize), Frame(frame), Color.White);
 
         _spriteBatch.End();
