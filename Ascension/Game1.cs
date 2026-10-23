@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -118,14 +119,18 @@ public class Game1 : Game
        
         Vector2 playerCenter = _playerPosition + new Vector2(PlayerSize / 2f, PlayerSize / 2f);
         Vector2 viewportCenter = new(_viewportWidth / 2, _viewportHeight / 2);
-        Vector2 viewportOffset = viewportCenter - playerCenter*zoom;
+        Vector2 scroll = (playerCenter*zoom) - viewportCenter;
 
-        Vector2 offset; // pls declare //no
+        Vector2 MinScroll =  Vector2.Zero;
+        Vector2 MaxScroll = new(_background.Width - _viewportWidth, _background.Height - _viewportHeight);
+
+        scroll = Vector2.Clamp(scroll, MinScroll, MaxScroll); // pls declare //no
+        Vector2 viewportOffset = -scroll;
 
         Matrix transform = Matrix.CreateScale(zoom)*Matrix.CreateTranslation(viewportOffset.X, viewportOffset.Y, 0);
         _spriteBatch.Begin(transformMatrix: transform);
         _spriteBatch.Draw(_background, new Rectangle(0, 0, _background.Width, _background.Height), Color.White);
-        _spriteBatch.Draw(_mountain, new Rectangle(0, 0, _mountain.Width, _mountain.Height), Color.White);
+        _spriteBatch.Draw(_mountain, new Rectangle(0, (PlayerSize*3), _mountain.Width, _mountain.Height), Color.White);
         _spriteBatch.Draw(_playerAtlas, new Rectangle((int)_playerPosition.X, (int)_playerPosition.Y, PlayerSize, PlayerSize), Frame(frame), Color.White);
 
         _spriteBatch.End();
